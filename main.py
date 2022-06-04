@@ -2,6 +2,7 @@ import pygame
 from pathlib import Path
 import time
 from colors import Colors
+from sprites import load_tile_sprites
 from map import Map
 from hud import Hud
 
@@ -24,10 +25,13 @@ class Game():
         self.deltaTime = 0
         self.prev_time = 0
         
-        self.MAP = Map(self)
+        self.spr_tiles = load_tile_sprites()
+
+        self.MAP = Map(self, 12, 12, self.spr_tiles)
         self.MAP.create()
         
         self.HUD = Hud(self)
+        
         
     def font(self, text="Placeholder", size=24, color=Colors.BLACK, anti_alias=False):
         font = pygame.font.Font(path / 'assets/font/pixeboy.ttf', size)
@@ -58,7 +62,6 @@ class Game():
             self.prev_time = now
             
             self.event_handler()
-            self.MAP.update()
             self.HUD.update()
             self.draw()
 
